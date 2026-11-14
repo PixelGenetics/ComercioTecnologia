@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { MonoTypeOperatorFunction, catchError, throwError } from 'rxjs';
 import { CodigoError, ErrorApp } from '@domain/errors';
+import { ES_PRODUCCION } from './api.config';
 
-const SIN_CONEXION = 'No se pudo conectar con la API. Verifica que esté corriendo en http://localhost:53654.';
+const SIN_CONEXION = ES_PRODUCCION
+  ? 'No se pudo conectar con el servidor. Si nadie lo usó en un rato puede estar despertando: intenta de nuevo en un minuto.'
+  : 'No se pudo conectar con la API. Verifica que esté corriendo en http://localhost:53654.';
 
 const CODIGOS: Record<number, CodigoError> = {
   400: 'validacion',

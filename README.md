@@ -51,7 +51,7 @@ Consume la API REST **[ComercioTecnologia.API](https://github.com/PixelGenetics/
 
 ### Requisitos
 
-- **Node.js 22 LTS o superior** (probado con Node 24) y npm.
+- **Node.js 22.22.3+ o 24.15+** (lo que exige Angular 22) y npm.
 - **La API corriendo** en `http://localhost:53654`. Las instrucciones están en [su repositorio](https://github.com/PixelGenetics/ComercioTecnologia.API).
 
 ### Instalar y ejecutar
@@ -63,7 +63,14 @@ npm start
 
 Abre <http://localhost:4200>.
 
-En desarrollo, `ng serve` reenvía todas las peticiones `/api/*` a la API mediante [`proxy.conf.json`](proxy.conf.json), así que no hace falta configurar CORS. Si tu API corre en otro puerto, cambia el `target` en ese archivo.
+### Dónde está la API
+
+| Entorno | Archivo | URL de la API |
+|---|---|---|
+| Desarrollo (`npm start`) | [`src/environments/environment.ts`](src/environments/environment.ts) | `/api`, que `ng serve` reenvía a `http://localhost:53654` con [`proxy.conf.json`](proxy.conf.json) |
+| Producción (`npm run build`) | [`src/environments/environment.prod.ts`](src/environments/environment.prod.ts) | La URL pública de la API en Render |
+
+En desarrollo no hace falta CORS gracias al proxy. Si tu API local corre en otro puerto, cambia el `target` de `proxy.conf.json`.
 
 ### Scripts
 
@@ -182,46 +189,22 @@ Son tonos pastel, así que el texto sobre ellos va siempre en tinta oscura (`#2E
 
 ## Despliegue
 
-`npm run build` genera archivos estáticos en `dist/tienda-web/browser`, que se pueden publicar en Netlify, Vercel, Cloudflare Pages o similar.
+El sitio se publica en **Netlify** (plan gratuito) con la configuración de [`netlify.toml`](netlify.toml):
 
-El servidor necesita dos reglas:
+- **Build:** `npm run build` con Node 24; publica `dist/tienda-web/browser`.
+- **Rutas de la SPA:** cualquier ruta (`/catalogo`, `/pedidos/2`…) se resuelve con `index.html`.
+- **Caché:** los `.js` y `.css` con hash se guardan un año; `index.html` nunca se cachea.
 
-1. **Reenviar `/api/*` a la API publicada.** Así el código sigue usando `/api` como en desarrollo y no hace falta CORS. La alternativa es cambiar `API_URL` en `src/app/data/http/api.config.ts` y permitir el dominio del frontend en la configuración de CORS de la API.
-2. **Servir `index.html` para cualquier otra ruta**, para que funcionen los enlaces directos como `/catalogo` o `/pedidos/2`.
+En producción el navegador llama **directo** a la API de Render (`environment.prod.ts`), y la API solo acepta ese origen por CORS. No se usa un reenvío `/api` en Netlify porque la API gratuita de Render se duerme y tarda hasta un minuto en despertar, más de lo que Netlify espera en un reenvío.
 
-**Netlify** (`netlify.toml` en la raíz del repositorio):
+### Pasos
 
-```toml
-[build]
-  command = "npm run build"
-  publish = "dist/tienda-web/browser"
+1. Publica primero la API (ver su [README](https://github.com/PixelGenetics/ComercioTecnologia.API#despliegue)). Si su URL no es `https://comerciotecnologia-api.onrender.com`, cámbiala en `src/environments/environment.prod.ts` y haz push.
+2. En [Netlify](https://app.netlify.com): **Add new site → Import an existing project → GitHub** y elige este repositorio. Netlify toma la configuración de `netlify.toml`; no hace falta cambiar nada.
+3. En **Site configuration → Change site name** ponle un nombre, por ejemplo `comerciotec` → `https://comerciotec.netlify.app`.
+4. En Render, pon esa URL exacta (sin `/` al final) en la variable `Cors__Origins__0` de la API.
 
-[[redirects]]
-  from = "/api/*"
-  to = "https://TU-API.onrender.com/api/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-```
-
-**Vercel** (`vercel.json`):
-
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist/tienda-web/browser",
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "https://TU-API.onrender.com/api/:path*" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
-
-Reemplaza `TU-API.onrender.com` por el dominio donde publiques la API.
+Cada push a `main` vuelve a publicar el sitio.
 
 ---
 
