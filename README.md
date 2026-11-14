@@ -3,6 +3,16 @@
 Frontend en **Angular 22** de una tienda de tecnología: catálogo con filtros, detalle de producto, carrito, checkout, pedidos y cuenta de usuario.
 Consume la API REST **[ComercioTecnologia.API](https://github.com/PixelGenetics/ComercioTecnologia.API)** (ASP.NET Core 8 + PostgreSQL en Supabase), que vive en su propio repositorio.
 
+### 🌐 En línea
+
+| | URL | Alojamiento |
+|---|---|---|
+| **Tienda** | **<https://comerciotec.netlify.app>** | Netlify |
+| API | <https://comerciotecnologia-api.onrender.com> | Render |
+| Documentación de la API (Swagger) | <https://comerciotecnologia-api.onrender.com/swagger> | Render |
+
+> La API usa el plan gratuito de Render y se duerme tras ~15 minutos sin visitas. La primera carga después puede tardar hasta un minuto; si la tienda muestra "No se pudo conectar con el servidor", espera unos segundos y recarga.
+
 ![Inicio de la tienda](docs/capturas/inicio.png)
 
 <p align="center">
@@ -189,7 +199,7 @@ Son tonos pastel, así que el texto sobre ellos va siempre en tinta oscura (`#2E
 
 ## Despliegue
 
-El sitio se publica en **Netlify** (plan gratuito) con la configuración de [`netlify.toml`](netlify.toml):
+El sitio está publicado en **<https://comerciotec.netlify.app>** con **Netlify** (plan gratuito) y la configuración de [`netlify.toml`](netlify.toml):
 
 - **Build:** `npm run build` con Node 24; publica `dist/tienda-web/browser`.
 - **Rutas de la SPA:** cualquier ruta (`/catalogo`, `/pedidos/2`…) se resuelve con `index.html`.
