@@ -1,0 +1,49 @@
+<form class="card form borde-gradiente" [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+  <h3 class="titulo-tarjeta">Nueva dirección</h3>
+  @if (error(); as mensaje) {
+    <div class="alerta alerta-error">{{ mensaje }}</div>
+  }
+  <div class="grid-campos">
+    <div class="campo">
+      <label for="dir-alias">Alias <span class="muted">(opcional)</span></label>
+      <input id="dir-alias" class="input" formControlName="alias" placeholder="Casa, Oficina…" />
+    </div>
+    <div class="campo campo-completo">
+      <label for="dir-calle">Dirección</label>
+      <input id="dir-calle" class="input" formControlName="calle" autocomplete="street-address" placeholder="Barrio, calle, número de casa" />
+      @if (form.controls.calle.touched && form.controls.calle.invalid) {
+        <span class="error-campo">La dirección es obligatoria.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="dir-ciudad">Ciudad</label>
+      <input id="dir-ciudad" class="input" formControlName="ciudad" autocomplete="address-level2" />
+      @if (form.controls.ciudad.touched && form.controls.ciudad.invalid) {
+        <span class="error-campo">La ciudad es obligatoria.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="dir-estado">Departamento <span class="muted">(opcional)</span></label>
+      <input id="dir-estado" class="input" formControlName="estado" autocomplete="address-level1" />
+    </div>
+    <div class="campo">
+      <label for="dir-cp">Código postal <span class="muted">(opcional)</span></label>
+      <input id="dir-cp" class="input" formControlName="codigoPostal" autocomplete="postal-code" />
+    </div>
+    <div class="campo">
+      <label for="dir-pais">País</label>
+      <input id="dir-pais" class="input" formControlName="pais" autocomplete="country-name" />
+      @if (form.controls.pais.touched && form.controls.pais.invalid) {
+        <span class="error-campo">El país es obligatorio.</span>
+      }
+    </div>
+  </div>
+  <label class="check">
+    <input type="checkbox" formControlName="esPrincipal" />
+    Usar como dirección principal
+  </label>
+  <div class="row">
+    <button type="submit" class="btn" [disabled]="enviando()">{{ enviando() ? 'Guardando…' : 'Guardar dirección' }}</button>
+    <button type="button" class="btn btn-ghost" (click)="cancelar.emit()">Cancelar</button>
+  </div>
+</form>

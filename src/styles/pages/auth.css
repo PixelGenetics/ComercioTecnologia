@@ -1,0 +1,8 @@
+/* Login y registro (pages/auth). */
+
+.card-auth {
+  width: min(440px, 100%); margin: 4rem auto; padding: 2rem;
+  border-radius: var(--r-lg); box-shadow: var(--shadow-lg);
+}
+.card-auth h1 { font-size: 1.7rem; }
+.pie-auth { text-align: center; margin: 1.25rem 0 0; }

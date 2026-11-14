@@ -1,0 +1,60 @@
+/* Encabezado (presentation/layout/header): barra con gradiente, menú y acciones. */
+
+.navbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; gap: 1.25rem;
+  padding: .85rem clamp(1rem, 4vw, 2rem);
+  background: var(--g-brand);
+  color: var(--ink);
+  box-shadow: var(--shadow-md);
+}
+.navbar a { color: var(--ink); font-weight: 600; }
+.navbar a:hover { text-decoration: none; }
+.navbar .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: -.03em; white-space: nowrap; }
+.navbar .logo span { opacity: .65; font-weight: 600; }
+.navbar .spacer { flex: 1; }
+
+/* Menú */
+.navbar .menu { display: flex; align-items: center; gap: .3rem; flex: 1; }
+.navbar .menu > a:not(.btn), .link-nav {
+  padding: .35rem .8rem; border-radius: var(--r-pill); white-space: nowrap;
+  transition: background .15s;
+}
+.navbar .menu > a:not(.btn):hover, .link-nav:hover { background: rgb(255 255 255 / .3); }
+.navbar .menu > a.active { background: rgb(255 255 255 / .55); }
+.link-nav { border: 0; background: transparent; font: inherit; font-weight: 600; color: var(--ink); cursor: pointer; }
+
+/* Botones redondos de la derecha: tema, carrito, menú móvil */
+.acciones-nav { display: flex; align-items: center; gap: .5rem; }
+.btn-icono {
+  position: relative;
+  display: inline-grid; place-items: center;
+  width: 2.4rem; height: 2.4rem; border: 0; border-radius: 50%;
+  font-size: 1.1rem; color: var(--ink); cursor: pointer;
+  background: rgb(255 255 255 / .4);
+  transition: background .15s;
+}
+.btn-icono:hover { background: rgb(255 255 255 / .65); }
+.navbar .badge-carrito {
+  position: absolute; top: -4px; right: -4px;
+  display: inline-grid; place-items: center;
+  min-width: 1.25rem; height: 1.25rem; padding: 0 .3rem;
+  border-radius: var(--r-pill); font-size: .7rem; font-weight: 800;
+  background: var(--ink); color: var(--crema);
+}
+
+/* Móvil: el menú se despliega debajo con el botón ☰ */
+.menu-toggle { display: none !important; }
+@media (max-width: 820px) {
+  .navbar { flex-wrap: wrap; }
+  .navbar .acciones-nav { margin-left: auto; }
+  .menu-toggle { display: inline-grid !important; }
+  .navbar .menu {
+    display: none; order: 3; flex-basis: 100%;
+    flex-direction: column; align-items: stretch; gap: .2rem;
+    padding-top: .6rem; border-top: 1px solid rgb(46 43 36 / .15);
+  }
+  .navbar .menu.abierto { display: flex; }
+  .navbar .menu .spacer { display: none; }
+  .navbar .menu .link-nav { text-align: left; }
+}

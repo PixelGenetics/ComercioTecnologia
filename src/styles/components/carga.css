@@ -1,0 +1,27 @@
+/* Estados de carga: esqueletos animados y spinner (shared/components/cargando). */
+
+.skeleton {
+  border-radius: var(--r-sm);
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--border) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+@keyframes shimmer { 0% { background-position: 100% 50%; } 100% { background-position: 0 50%; } }
+
+/* Formas de esqueleto (texto, título, precio, botón) */
+.skeleton-etiqueta { height: .8rem; width: 40%; }
+.skeleton-nombre   { height: 1.1rem; width: 85%; }
+.skeleton-titulo   { height: 2.4rem; width: 80%; }
+.skeleton-linea    { height: 1rem; width: 60%; }
+.skeleton-precio   { height: 1.6rem; width: 50%; }
+.skeleton-boton    { height: 2.6rem; border-radius: var(--r-pill); margin-top: .6rem; }
+
+.cargando { display: flex; align-items: center; gap: 1rem; }
+.spinner {
+  width: 2.2rem; height: 2.2rem; border-radius: 50%;
+  background: conic-gradient(from 0deg, transparent 0 25%, var(--azul), var(--rosa));
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
+  animation: giro .8s linear infinite;
+}
+@keyframes giro { to { transform: rotate(360deg); } }

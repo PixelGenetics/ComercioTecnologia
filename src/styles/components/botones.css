@@ -1,0 +1,43 @@
+/* Botones: .btn y sus variantes. */
+
+.btn {
+  --btn-bg: var(--g-brand);
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  padding: .7rem 1.25rem;
+  border: 0; border-radius: var(--r-pill);
+  font: inherit; font-weight: 700; color: var(--ink); cursor: pointer;
+  background: var(--btn-bg);
+  background-size: 180% 100%; background-position: 0 0;
+  box-shadow: var(--shadow-md);
+  transition: transform .18s var(--ease), box-shadow .18s var(--ease), background-position .35s var(--ease), filter .18s;
+}
+.btn:hover { background-position: 100% 0; transform: translateY(-2px); box-shadow: var(--shadow-lg); text-decoration: none; }
+.btn:active { transform: translateY(0); }
+.btn:disabled, .btn[disabled] { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; filter: grayscale(.6); }
+
+/* Colores */
+.btn-hot { --btn-bg: var(--g-hot); }
+.btn-ok { --btn-bg: var(--g-ok); }
+.btn-ink { --btn-bg: linear-gradient(var(--ink), var(--ink)); color: var(--crema) !important; box-shadow: none; }
+
+.btn-outline {
+  color: var(--text);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-brand) border-box;
+  box-shadow: none;
+}
+.btn-outline:hover {
+  background:
+    var(--g-brand-soft) padding-box,
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-brand) border-box;
+}
+.btn-ghost { background: transparent; color: var(--c-link); box-shadow: none; }
+.btn-ghost:hover { background: var(--g-brand-soft); transform: none; box-shadow: none; }
+
+/* Tamaños */
+.btn-lg { padding: .95rem 1.8rem; font-size: 1.05rem; }
+.btn-sm { padding: .4rem .85rem; font-size: .85rem; }
+.btn-block { width: 100%; }

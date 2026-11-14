@@ -1,0 +1,11 @@
+/* Paginación del catálogo. */
+
+.paginacion { display: flex; gap: .4rem; justify-content: center; margin: 2rem 0; flex-wrap: wrap; }
+.paginacion-izquierda { justify-content: flex-start; }
+.paginacion button {
+  min-width: 2.4rem; height: 2.4rem; border-radius: var(--r-sm); cursor: pointer;
+  border: 1px solid var(--border); background: var(--surface); color: var(--text); font-weight: 600;
+  transition: all .15s var(--ease);
+}
+.paginacion button:hover { border-color: var(--azul); }
+.paginacion button.activa { border-color: transparent; background: var(--g-brand); color: var(--ink); box-shadow: var(--shadow-md); }

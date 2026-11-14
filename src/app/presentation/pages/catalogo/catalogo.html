@@ -1,0 +1,86 @@
+<div class="encabezado-pagina">
+  <h1><span class="texto-gradiente">Catálogo</span></h1>
+  @if (resultado(); as r) {
+    <span class="muted">{{ r.total }} {{ r.total === 1 ? 'resultado' : 'resultados' }}</span>
+  }
+</div>
+
+<div class="layout-catalogo">
+  <aside class="card filtros">
+    <form class="form" [formGroup]="form" (ngSubmit)="aplicar()">
+      <div class="campo">
+        <label for="f-q">Buscar</label>
+        <input id="f-q" class="input" type="search" formControlName="q" placeholder="Producto, marca o SKU" />
+      </div>
+      <div class="campo">
+        <label for="f-categoria">Categoría</label>
+        <select id="f-categoria" class="select" formControlName="categoria">
+          <option value="">Todas</option>
+          @for (g of grupos(); track g.nombre) {
+            <optgroup [label]="g.nombre">
+              @for (c of g.categorias; track c.id) {
+                <option [value]="c.nombre">{{ c.nombre }}</option>
+              }
+            </optgroup>
+          }
+        </select>
+      </div>
+      <div class="campo">
+        <label for="f-marca">Marca</label>
+        <input id="f-marca" class="input" formControlName="marca" placeholder="Ej. Samsung" />
+      </div>
+      <div class="campo">
+        <span class="etiqueta-campo">Precio (USD)</span>
+        <div class="rango-precio">
+          <label class="sr-only" for="f-min">Precio mínimo</label>
+          <input id="f-min" class="input" type="number" min="0" formControlName="precioMin" placeholder="Mín." />
+          <label class="sr-only" for="f-max">Precio máximo</label>
+          <input id="f-max" class="input" type="number" min="0" formControlName="precioMax" placeholder="Máx." />
+        </div>
+      </div>
+      <label class="check">
+        <input type="checkbox" formControlName="soloConStock" />
+        Solo con stock
+      </label>
+      <button type="submit" class="btn btn-block">Aplicar filtros</button>
+      <button type="button" class="btn btn-ghost btn-block" (click)="limpiar()">Limpiar</button>
+    </form>
+  </aside>
+
+  <section>
+    @if (error(); as mensaje) {
+      <div class="alerta alerta-error">{{ mensaje }}</div>
+    } @else if (cargando()) {
+      <div class="grid-productos">
+        @for (n of placeholders; track n) {
+          <app-tarjeta-producto-skeleton />
+        }
+      </div>
+    } @else if (resultado(); as r) {
+      @if (r.items.length === 0) {
+        <app-estado-vacio icono="⌕" titulo="Sin resultados">
+          <p class="muted">Prueba con otros filtros o límpialos para ver todo el catálogo.</p>
+          <button type="button" class="btn" (click)="limpiar()">Ver todo</button>
+        </app-estado-vacio>
+      } @else {
+        <div class="grid-productos">
+          @for (item of r.items; track item.varianteId) {
+            <app-tarjeta-producto [item]="item" />
+          }
+        </div>
+
+        @if (totalPaginas() > 1) {
+          <nav class="paginacion" aria-label="Paginación">
+            <button type="button" [disabled]="r.pagina <= 1" (click)="irAPagina(r.pagina - 1)" aria-label="Anterior">‹</button>
+            @for (n of paginas(); track n) {
+              <button type="button" [class.activa]="n === r.pagina" [attr.aria-current]="n === r.pagina ? 'page' : null" (click)="irAPagina(n)">
+                {{ n }}
+              </button>
+            }
+            <button type="button" [disabled]="r.pagina >= totalPaginas()" (click)="irAPagina(r.pagina + 1)" aria-label="Siguiente">›</button>
+          </nav>
+        }
+      }
+    }
+  </section>
+</div>

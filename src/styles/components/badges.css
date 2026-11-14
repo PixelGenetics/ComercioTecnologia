@@ -1,0 +1,24 @@
+/* Badges (etiquetas) y estados de pedido. */
+
+.badge {
+  display: inline-flex; align-items: center; gap: .3rem;
+  padding: .2rem .65rem; border-radius: var(--r-pill);
+  font-size: .75rem; font-weight: 700; color: var(--ink); background: var(--g-brand);
+}
+.badge-descuento { background: var(--g-hot); }
+.badge-oferta { background: var(--g-hot); position: absolute; top: .75rem; left: .75rem; box-shadow: var(--shadow-sm); }
+.badge-stock-ok { background: var(--g-ok); }
+.badge-stock-bajo { background: var(--g-rosa-suave); box-shadow: inset 0 0 0 1px var(--rosa); }
+.badge-agotado { background: var(--g-neutro); }
+
+/* Estados de pedido: Pendiente, Pagado, Enviado, Entregado, Cancelado */
+.estado-pendiente, .estado-pagado, .estado-enviado, .estado-entregado, .estado-cancelado {
+  display: inline-flex; padding: .25rem .75rem; border-radius: var(--r-pill);
+  font-size: .78rem; font-weight: 700; color: var(--ink);
+}
+.estado-pendiente { background: var(--g-neutro); }
+.estado-pagado    { background: var(--g-azul); }
+.estado-enviado   { background: var(--g-brand); }
+.estado-entregado { background: var(--g-ok); }
+.estado-cancelado { background: var(--g-hot); }
+.estado-grande { font-size: .9rem; }

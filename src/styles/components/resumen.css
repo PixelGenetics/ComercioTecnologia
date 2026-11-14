@@ -1,0 +1,22 @@
+/* Resumen lateral de importes (carrito, checkout, detalle de pedido). */
+
+.resumen {
+  position: sticky; top: 5rem;
+  border-radius: var(--r-lg); padding: 1.5rem;
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-brand) border-box;
+  box-shadow: var(--shadow-md);
+}
+.resumen p { margin: .4rem 0 0; }
+.resumen .linea { display: flex; justify-content: space-between; padding: .35rem 0; }
+.resumen .linea-item { font-size: .9rem; gap: 1rem; }
+.resumen .descuento { color: var(--c-ok); font-weight: 600; }
+.resumen .total {
+  margin-top: .6rem; padding-top: .9rem; border-top: 1px dashed var(--border);
+  font-size: 1.5rem; font-weight: 800;
+}
+.resumen .total span:last-child { background: var(--g-texto); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.separador { border: 0; border-top: 1px dashed var(--border); margin: .6rem 0; }

@@ -1,0 +1,27 @@
+/* Estilos de los elementos HTML (sin clases). */
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font);
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--bg-gradient) fixed;
+}
+
+img { max-width: 100%; display: block; }
+a { color: var(--c-link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1, h2, h3, h4 { line-height: 1.2; margin: 0 0 .5em; letter-spacing: -.02em; }
+fieldset { border: 0; padding: 0; margin: 0; min-width: 0; }
+
+::selection { background: rgb(236 197 198 / .6); color: var(--ink); }
+:focus-visible { outline: none; box-shadow: var(--glow); border-radius: var(--r-sm); }
+
+/* Accesibilidad: sin animaciones si el sistema lo pide */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

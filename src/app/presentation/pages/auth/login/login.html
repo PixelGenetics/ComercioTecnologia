@@ -1,0 +1,35 @@
+<div class="card card-auth borde-gradiente">
+  <h1>Iniciar <span class="texto-gradiente">sesión</span></h1>
+  <p class="muted">Entra para usar tu carrito y ver tus pedidos.</p>
+
+  @if (expirada()) {
+    <div class="alerta alerta-warn mb-2">Tu sesión expiró. Vuelve a iniciar sesión.</div>
+  }
+  @if (error(); as mensaje) {
+    <div class="alerta alerta-error mb-2">{{ mensaje }}</div>
+  }
+
+  <form class="form" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+    <div class="campo">
+      <label for="correo">Correo</label>
+      <input id="correo" class="input" type="email" formControlName="correo" autocomplete="email" />
+      @if (form.controls.correo.touched && form.controls.correo.invalid) {
+        <span class="error-campo">Escribe un correo válido.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input id="password" class="input" type="password" formControlName="password" autocomplete="current-password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="error-campo">La contraseña es obligatoria.</span>
+      }
+    </div>
+    <button type="submit" class="btn btn-block btn-lg" [disabled]="enviando()">
+      {{ enviando() ? 'Entrando…' : 'Entrar' }}
+    </button>
+  </form>
+
+  <p class="muted pie-auth">
+    ¿No tienes cuenta? <a routerLink="/registro" [queryParams]="{ volver: volver() }">Créala aquí</a>
+  </p>
+</div>

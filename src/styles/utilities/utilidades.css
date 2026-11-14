@@ -1,0 +1,37 @@
+/* Utilidades: una sola responsabilidad cada una. Van al final para ganar sobre lo anterior. */
+
+/* Gradientes */
+.texto-gradiente {
+  background: var(--g-texto);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.fondo-gradiente { background: var(--g-brand); color: var(--ink); }
+.fondo-hot { background: var(--g-hot); color: var(--ink); }
+.fondo-ok { background: var(--g-ok); color: var(--ink); }
+
+/* Borde con gradiente sobre cualquier superficie */
+.borde-gradiente {
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-brand) border-box;
+}
+
+/* Texto */
+.muted { color: var(--text-muted); }
+.texto-chico { font-size: .85rem; }
+.texto-mini { font-size: .8rem; }
+.texto-derecha { text-align: right; }
+
+/* Márgenes */
+.mt-1 { margin-top: .75rem; }
+.mt-2 { margin-top: 1rem; }
+.mb-1 { margin-bottom: .75rem; }
+.mb-2 { margin-bottom: 1rem; }
+.mb-3 { margin-bottom: 1.5rem; }
+.my-2 { margin-block: 1rem; }
+
+/* Solo para lectores de pantalla */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }

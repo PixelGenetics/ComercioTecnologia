@@ -1,0 +1,41 @@
+<div class="encabezado-pagina">
+  <h1>Mis <span class="texto-gradiente">pedidos</span></h1>
+</div>
+
+@if (cargando()) {
+  <app-cargando texto="Cargando pedidos…" />
+} @else if (error(); as mensaje) {
+  <div class="alerta alerta-error">{{ mensaje }}</div>
+} @else if (pedidos().length === 0) {
+  <app-estado-vacio icono="📦" titulo="Aún no tienes pedidos">
+    <p class="muted">Cuando compres algo, lo verás aquí.</p>
+    <a class="btn" routerLink="/catalogo">Ir al catálogo</a>
+  </app-estado-vacio>
+} @else {
+  <div class="tabla-scroll">
+    <table class="tabla">
+      <thead>
+        <tr>
+          <th>Pedido</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th>Pago</th>
+          <th class="texto-derecha">Total</th>
+          <th><span class="sr-only">Ver</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of pedidos(); track p.id) {
+          <tr>
+            <td><strong>#{{ p.id }}</strong></td>
+            <td>{{ p.creadoEn | date: 'dd/MM/yyyy HH:mm' }}</td>
+            <td><span [class]="'estado-' + p.estado.toLowerCase()">{{ p.estado }}</span></td>
+            <td>{{ p.metodoPago }}</td>
+            <td class="texto-derecha"><strong>{{ p.total | currency: 'USD' }}</strong></td>
+            <td class="texto-derecha"><a class="btn btn-outline btn-sm" [routerLink]="['/pedidos', p.id]">Ver detalle</a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+}

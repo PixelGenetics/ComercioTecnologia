@@ -1,0 +1,23 @@
+/* Avisos flotantes / toasts (presentation/layout/avisos). */
+
+.toasts {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 100;
+  display: grid; gap: .5rem; width: min(360px, calc(100% - 2rem));
+}
+.toast {
+  display: flex; align-items: center; justify-content: space-between; gap: .75rem;
+  padding: .85rem 1rem; border-radius: var(--r-md); font-weight: 600; color: var(--text);
+  border: 1.5px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-brand) border-box;
+  box-shadow: var(--shadow-lg);
+  animation: entrar .25s var(--ease);
+}
+.toast-error {
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--g-hot) border-box;
+}
+.toast button { border: 0; background: transparent; color: var(--text-muted); cursor: pointer; font-size: .9rem; }
+@keyframes entrar { from { opacity: 0; transform: translateY(8px); } }

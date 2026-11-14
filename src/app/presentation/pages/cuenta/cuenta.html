@@ -1,0 +1,59 @@
+<div class="encabezado-pagina">
+  <h1>Mi <span class="texto-gradiente">cuenta</span></h1>
+</div>
+
+@if (cargando()) {
+  <app-cargando />
+} @else if (error(); as mensaje) {
+  <div class="alerta alerta-error">{{ mensaje }}</div>
+} @else {
+  @if (perfil(); as p) {
+    <section class="card borde-gradiente perfil">
+      <div class="avatar" aria-hidden="true">{{ p.nombre.charAt(0) }}</div>
+      <div class="perfil-datos">
+        <h2>{{ p.nombre }}</h2>
+        <div class="muted">{{ p.correo }}</div>
+      </div>
+      <div class="perfil-roles">
+        @for (rol of p.roles; track rol) {
+          <span class="badge">{{ rol }}</span>
+        }
+      </div>
+    </section>
+  }
+
+  <div class="seccion-titulo">
+    <h2>Mis direcciones</h2>
+    @if (!agregando()) {
+      <button type="button" class="btn btn-sm" (click)="agregando.set(true)">+ Nueva dirección</button>
+    }
+  </div>
+
+  @if (agregando()) {
+    <div class="mb-2">
+      <app-form-direccion (creada)="direccionCreada($event)" (cancelar)="agregando.set(false)" />
+    </div>
+  }
+
+  <div class="lista-tarjetas">
+    @for (d of direcciones(); track d.id) {
+      <article class="card" [class.borde-gradiente]="d.esPrincipal">
+        <div class="acciones-fila direccion-encabezado">
+          <strong>{{ d.alias || 'Dirección' }}</strong>
+          @if (d.esPrincipal) {
+            <span class="badge">Principal</span>
+          }
+        </div>
+        <div>{{ d.calle }}</div>
+        <div class="muted">
+          {{ d.ciudad }}@if (d.estado) {, {{ d.estado }}}@if (d.codigoPostal) { · {{ d.codigoPostal }}}
+        </div>
+        <div class="muted">{{ d.pais }}</div>
+      </article>
+    } @empty {
+      @if (!agregando()) {
+        <div class="alerta alerta-info">Aún no tienes direcciones. Agrega una para poder comprar.</div>
+      }
+    }
+  </div>
+}

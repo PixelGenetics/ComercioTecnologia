@@ -1,0 +1,8 @@
+/* Estado vacío / no encontrado (shared/components/estado-vacio). */
+
+.vacio { text-align: center; padding: 3rem 1.5rem; }
+.vacio .vacio-icono {
+  width: 4rem; height: 4rem; margin: 0 auto 1rem; border-radius: 50%;
+  display: grid; place-items: center; font-size: 1.8rem; background: var(--g-brand);
+  color: var(--ink);
+}

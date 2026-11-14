@@ -1,0 +1,140 @@
+@if (cargando()) {
+  <div class="detalle-producto" aria-hidden="true">
+    <div class="galeria skeleton"></div>
+    <div class="stack">
+      <div class="skeleton skeleton-etiqueta"></div>
+      <div class="skeleton skeleton-titulo"></div>
+      <div class="skeleton skeleton-linea"></div>
+      <div class="skeleton skeleton-precio"></div>
+    </div>
+  </div>
+} @else if (error(); as mensaje) {
+  <app-estado-vacio [titulo]="mensaje">
+    <a class="btn" routerLink="/catalogo">Volver al catálogo</a>
+  </app-estado-vacio>
+} @else if (producto(); as p) {
+  <nav class="migas" aria-label="Ruta">
+    <a routerLink="/">Inicio</a><span aria-hidden="true">›</span>
+    <a routerLink="/catalogo">Catálogo</a><span aria-hidden="true">›</span>
+    <a routerLink="/catalogo" [queryParams]="{ categoria: p.categoria }">{{ p.categoria }}</a><span aria-hidden="true">›</span>
+    <span>{{ p.nombre }}</span>
+  </nav>
+
+  <div class="detalle-producto">
+    <div>
+      <div class="galeria">
+        @if (imagen(); as url) {
+          <img [src]="url" [alt]="p.nombre" (error)="imagenRota(url)" />
+        } @else {
+          <div class="imagen-placeholder"><span class="texto-gradiente">{{ p.marca }}</span></div>
+        }
+      </div>
+      @if (fotos().length > 1) {
+        <div class="miniaturas" role="group" aria-label="Fotos del producto">
+          @for (url of fotos(); track url; let i = $index) {
+            <button
+              type="button"
+              [class.activa]="url === imagen()"
+              [attr.aria-pressed]="url === imagen()"
+              [attr.aria-label]="'Ver foto ' + (i + 1)"
+              (click)="seleccion.set(url)"
+            >
+              <img [src]="url" alt="" loading="lazy" (error)="imagenRota(url)" />
+            </button>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="detalle-info stack">
+      <div>
+        <span class="detalle-marca">{{ p.marca }}</span>
+        <h1>{{ p.nombre }}</h1>
+        @if (p.descripcion) {
+          <p class="muted">{{ p.descripcion }}</p>
+        }
+      </div>
+
+      @if (variante(); as v) {
+        <div class="detalle-precio">
+          <span class="precio">{{ v.precio | currency: 'USD' }}</span>
+          @if (v.precioComparacion) {
+            <span class="precio-anterior">{{ v.precioComparacion | currency: 'USD' }}</span>
+            <span class="badge badge-descuento">-{{ descuento() }}%</span>
+          }
+        </div>
+      }
+
+      @if (p.variantes.length > 1) {
+        <fieldset class="selector-variante">
+          <legend class="etiqueta-campo">Elige una versión</legend>
+          <div class="opciones-fila">
+            @for (v of p.variantes; track v.id) {
+              <label class="opcion opcion-pill">
+                <input
+                  type="radio"
+                  name="variante"
+                  [checked]="v.id === varianteId()"
+                  [disabled]="v.stock === 0"
+                  (change)="elegirVariante(v)"
+                />
+                {{ v.nombre || v.sku }}
+              </label>
+            }
+          </div>
+        </fieldset>
+      }
+
+      @if (variante(); as v) {
+        <div class="detalle-stock">
+          <span [class]="stock().clase">{{ stock().texto }}</span>
+          <span class="muted texto-chico">SKU {{ v.sku }}</span>
+        </div>
+
+        <div class="detalle-compra">
+          <div class="cantidad" role="group" aria-label="Cantidad">
+            <button type="button" (click)="cambiarCantidad(-1)" [disabled]="cantidad() <= 1" aria-label="Quitar uno">−</button>
+            <span>{{ cantidad() }}</span>
+            <button type="button" (click)="cambiarCantidad(1)" [disabled]="cantidad() >= maximo()" aria-label="Agregar uno">+</button>
+          </div>
+          <button type="button" class="btn btn-lg" [disabled]="v.stock === 0 || agregando()" (click)="agregar()">
+            {{ agregando() ? 'Agregando…' : 'Agregar al carrito' }}
+          </button>
+        </div>
+      }
+
+      <div class="alerta alerta-info alerta-suave">
+        Garantía de <strong>{{ p.garantiaMeses }} meses</strong> · Envío a todo el país o retiro en tienda.
+      </div>
+    </div>
+  </div>
+
+  @if (auth.esAdmin()) {
+    <div class="seccion-admin">
+      <app-admin-imagenes [productoId]="p.id" [imagenes]="imagenes()" (cambio)="imagenesCambiaron($event)" />
+    </div>
+  }
+
+  @if (especificaciones().length > 0) {
+    <div class="seccion-titulo"><h2>Especificaciones</h2></div>
+    <dl class="specs">
+      @for (e of especificaciones(); track e[0]) {
+        <dt>{{ e[0] }}</dt>
+        <dd>{{ e[1] }}</dd>
+      }
+    </dl>
+  }
+
+  @if (relacionados().length > 0) {
+    <div class="seccion-titulo"><h2>Combina con</h2></div>
+    <div class="lista-tarjetas">
+      @for (r of relacionados(); track r.producto.id) {
+        <a class="card borde-gradiente card-relacionado" [routerLink]="['/productos', r.producto.id]">
+          <span class="badge">{{ r.tipo }}</span>
+          <strong>{{ r.producto.nombre }}</strong>
+          <span class="muted">{{ r.producto.marca }} · desde {{ r.desde | currency: 'USD' }}</span>
+        </a>
+      }
+    </div>
+  }
+}

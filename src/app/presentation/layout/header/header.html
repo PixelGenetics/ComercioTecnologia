@@ -1,0 +1,52 @@
+<header class="navbar">
+  <a routerLink="/" class="logo">Comercio<span>Tec</span></a>
+
+  <nav class="menu" [class.abierto]="menuAbierto()" id="menu-principal">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Inicio</a>
+    <a routerLink="/catalogo" routerLinkActive="active">Catálogo</a>
+    @if (auth.autenticado()) {
+      <a routerLink="/pedidos" routerLinkActive="active">Mis pedidos</a>
+    }
+    <span class="spacer"></span>
+    @if (auth.usuario(); as usuario) {
+      <a routerLink="/cuenta" routerLinkActive="active">Hola, {{ primerNombre(usuario.nombre) }}</a>
+      <button type="button" class="link-nav" (click)="salir()">Salir</button>
+    } @else {
+      <a routerLink="/login" routerLinkActive="active">Ingresar</a>
+      <a routerLink="/registro" class="btn btn-sm btn-ink">Crear cuenta</a>
+    }
+  </nav>
+
+  <div class="acciones-nav">
+    <button
+      type="button"
+      class="btn-icono"
+      (click)="tema.alternar()"
+      [attr.aria-label]="tema.tema() === 'dark' ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
+    >
+      {{ tema.tema() === 'dark' ? '☀' : '☾' }}
+    </button>
+    @if (auth.autenticado()) {
+      <a routerLink="/carrito" class="btn-icono" aria-label="Carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="9" cy="20" r="1.5" /><circle cx="18" cy="20" r="1.5" />
+          <path d="M2.5 3h2.6l2.4 12.2a1.5 1.5 0 0 0 1.5 1.2h8.9a1.5 1.5 0 0 0 1.5-1.1L21.5 7H6" />
+        </svg>
+        @if (carrito.cantidad() > 0) {
+          <span class="badge-carrito">{{ carrito.cantidad() }}</span>
+        }
+      </a>
+    }
+    <button
+      type="button"
+      class="btn-icono menu-toggle"
+      (click)="menuAbierto.set(!menuAbierto())"
+      [attr.aria-expanded]="menuAbierto()"
+      aria-controls="menu-principal"
+      aria-label="Menú"
+    >
+      {{ menuAbierto() ? '✕' : '☰' }}
+    </button>
+  </div>
+</header>

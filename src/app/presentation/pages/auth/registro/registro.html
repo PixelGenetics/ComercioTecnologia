@@ -1,0 +1,59 @@
+<div class="card card-auth borde-gradiente">
+  <h1>Crear <span class="texto-gradiente">cuenta</span></h1>
+  <p class="muted">Regístrate para comprar y seguir tus pedidos.</p>
+
+  @if (error(); as mensaje) {
+    <div class="alerta alerta-error mb-2">{{ mensaje }}</div>
+  }
+
+  <form class="form" [formGroup]="form" (ngSubmit)="enviar()" novalidate>
+    <div class="campo">
+      <label for="nombre">Nombre completo</label>
+      <input id="nombre" class="input" formControlName="nombre" autocomplete="name" />
+      @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+        <span class="error-campo">El nombre es obligatorio.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="correo">Correo</label>
+      <input id="correo" class="input" type="email" formControlName="correo" autocomplete="email" />
+      @if (form.controls.correo.touched && form.controls.correo.invalid) {
+        <span class="error-campo">Escribe un correo válido.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="telefono">Teléfono <span class="muted">(opcional)</span></label>
+      <input id="telefono" class="input" type="tel" formControlName="telefono" autocomplete="tel" placeholder="+505 8888 8888" />
+    </div>
+    <div class="campo">
+      <label for="password">Contraseña</label>
+      <input id="password" class="input" type="password" formControlName="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+        <span class="error-campo">Debe tener al menos 8 caracteres.</span>
+      }
+    </div>
+    <div class="campo">
+      <label for="confirmar">Confirmar contraseña</label>
+      <input
+        id="confirmar"
+        class="input"
+        type="password"
+        formControlName="confirmar"
+        autocomplete="new-password"
+        [class.invalido]="form.controls.confirmar.touched && form.hasError('noCoinciden')"
+      />
+      @if (form.controls.confirmar.touched && form.controls.confirmar.invalid) {
+        <span class="error-campo">Confirma tu contraseña.</span>
+      } @else if (form.controls.confirmar.touched && form.hasError('noCoinciden')) {
+        <span class="error-campo">Las contraseñas no coinciden.</span>
+      }
+    </div>
+    <button type="submit" class="btn btn-block btn-lg" [disabled]="enviando()">
+      {{ enviando() ? 'Creando cuenta…' : 'Crear cuenta' }}
+    </button>
+  </form>
+
+  <p class="muted pie-auth">
+    ¿Ya tienes cuenta? <a routerLink="/login" [queryParams]="{ volver: volver() }">Inicia sesión</a>
+  </p>
+</div>

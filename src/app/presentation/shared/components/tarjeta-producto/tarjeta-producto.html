@@ -1,0 +1,36 @@
+<article class="card card-producto">
+  @if (descuento() > 0) {
+    <span class="badge badge-oferta">-{{ descuento() }}%</span>
+  }
+  <a [routerLink]="['/productos', item().productoId]" class="imagen imagen-placeholder" tabindex="-1" aria-hidden="true">
+    @if (item().imagen && !imagenRota()) {
+      <img [src]="item().imagen" alt="" loading="lazy" (error)="imagenRota.set(true)" />
+    } @else {
+      <span class="texto-gradiente">{{ item().marca }}</span>
+    }
+  </a>
+  <div class="cuerpo">
+    <span class="marca">{{ item().categoria }}</span>
+    <a class="nombre" [routerLink]="['/productos', item().productoId]">{{ item().producto }}</a>
+    @if (item().nombreVariante) {
+      <span class="muted">{{ item().nombreVariante }}</span>
+    }
+    <div>
+      <span class="precio">{{ item().precio | currency: 'USD' }}</span>
+      @if (item().precioComparacion) {
+        <span class="precio-anterior">{{ item().precioComparacion | currency: 'USD' }}</span>
+      }
+    </div>
+    <span [class]="stock().clase">{{ stock().texto }}</span>
+    <div class="acciones">
+      <button
+        type="button"
+        class="btn btn-block"
+        [disabled]="item().stockTotal === 0 || agregando()"
+        (click)="agregar()"
+      >
+        {{ agregando() ? 'Agregando…' : 'Agregar al carrito' }}
+      </button>
+    </div>
+  </div>
+</article>

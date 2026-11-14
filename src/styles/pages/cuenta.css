@@ -1,0 +1,14 @@
+/* Mi cuenta (pages/cuenta): perfil y direcciones. */
+
+.perfil { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+.perfil-datos { flex: 1; }
+.perfil-datos h2 { margin: 0; }
+.perfil-roles { display: flex; gap: .4rem; flex-wrap: wrap; }
+
+.avatar {
+  flex: none; width: 3.5rem; height: 3.5rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--g-brand); color: var(--ink); font-weight: 800; font-size: 1.4rem;
+}
+
+.direccion-encabezado { margin-bottom: .4rem; }

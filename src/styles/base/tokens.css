@@ -1,0 +1,110 @@
+/* ==========================================================================
+   Tokens: paleta, gradientes, superficies, sombras y forma.
+   Paleta: #8A9DB1 azul niebla · #ECC5C6 rosa · #F5E9E7 crema · #C1C0C2 gris · #837D68 oliva
+   Los gradientes son pastel: el texto sobre ellos va siempre en --ink (oscuro),
+   porque el blanco no tiene contraste suficiente con estos tonos.
+   Tema claro/oscuro automático (prefers-color-scheme) o manual con
+   <html data-theme="light|dark"> (lo pone TemaService).
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* Paleta base */
+  --azul: #8A9DB1;
+  --rosa: #ECC5C6;
+  --crema: #F5E9E7;
+  --gris: #C1C0C2;
+  --oliva: #837D68;
+
+  /* Derivados más oscuros, para texto con contraste AA */
+  --azul-profundo: #4F6378;
+  --rosa-profundo: #9E4F53;
+  --oliva-profundo: #5F5A4A;
+  --ink: #2E2B24;                /* texto sobre gradientes pastel (igual en ambos temas) */
+
+  /* Gradientes (iguales en ambos temas) */
+  --g-brand: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 100%);
+  --g-brand-soft: linear-gradient(135deg, rgb(138 157 177 / .16), rgb(236 197 198 / .28));
+  --g-azul: linear-gradient(135deg, #8A9DB1 0%, #B8C5D3 100%);
+  --g-hot: linear-gradient(135deg, #E2A7AA 0%, var(--rosa) 100%);
+  --g-rosa-suave: linear-gradient(135deg, #F0D3D3 0%, #F7ECEA 100%);
+  --g-ok: linear-gradient(135deg, #A9A48C 0%, #D2CEBD 100%);
+  --g-neutro: linear-gradient(135deg, var(--gris) 0%, #DFDDE0 100%);
+  --g-footer: linear-gradient(135deg, #4A463A 0%, #6E6956 100%);
+
+  /* Tema claro */
+  --bg: var(--crema);
+  --bg-gradient: linear-gradient(180deg, #F8F0EE 0%, var(--crema) 100%);
+  --surface: #FFFBFA;
+  --surface-2: #FAF2F0;
+  --border: #E4D6D4;
+  --text: var(--ink);
+  --text-muted: #6E6956;
+  --c-link: var(--azul-profundo);
+  --c-ok: var(--oliva-profundo);
+  --c-error: var(--rosa-profundo);
+  --g-texto: linear-gradient(135deg, #5E7189 0%, #A86A6E 100%);
+  --g-hero: radial-gradient(900px 420px at 90% -10%, rgb(236 197 198 / .85), transparent 60%),
+            radial-gradient(800px 420px at 0% 0%, rgb(138 157 177 / .55), transparent 55%),
+            linear-gradient(160deg, #F8F0EE 0%, #EFE4E2 100%);
+  --shadow-sm: 0 1px 2px rgb(46 43 36 / .06), 0 1px 3px rgb(46 43 36 / .08);
+  --shadow-md: 0 8px 24px -10px rgb(79 99 120 / .35);
+  --shadow-lg: 0 24px 48px -18px rgb(79 99 120 / .45);
+  --glow: 0 0 0 4px rgb(138 157 177 / .45);
+
+  /* Forma */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+}
+
+/* Tema oscuro: por preferencia del sistema (si no se forzó el claro) … */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #1C1B18;
+    --bg-gradient: linear-gradient(180deg, #1C1B18 0%, #23211D 100%);
+    --surface: #282622;
+    --surface-2: #312F2A;
+    --border: #45423A;
+    --text: var(--crema);
+    --text-muted: var(--gris);
+    --c-link: #B8C5D3;
+    --c-ok: #D2CEBD;
+    --c-error: var(--rosa);
+    --g-texto: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 100%);
+    --g-hero: radial-gradient(900px 420px at 90% -10%, rgb(236 197 198 / .22), transparent 60%),
+              radial-gradient(800px 420px at 0% 0%, rgb(138 157 177 / .28), transparent 55%),
+              linear-gradient(160deg, #2A2824 0%, #1F1E1A 100%);
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / .4);
+    --shadow-md: 0 10px 28px -12px rgb(0 0 0 / .6);
+    --shadow-lg: 0 24px 48px -16px rgb(0 0 0 / .7);
+  }
+}
+
+/* … o elegido a mano con el botón del encabezado */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #1C1B18;
+  --bg-gradient: linear-gradient(180deg, #1C1B18 0%, #23211D 100%);
+  --surface: #282622;
+  --surface-2: #312F2A;
+  --border: #45423A;
+  --text: var(--crema);
+  --text-muted: var(--gris);
+  --c-link: #B8C5D3;
+  --c-ok: #D2CEBD;
+  --c-error: var(--rosa);
+  --g-texto: linear-gradient(135deg, var(--azul) 0%, var(--rosa) 100%);
+  --g-hero: radial-gradient(900px 420px at 90% -10%, rgb(236 197 198 / .22), transparent 60%),
+            radial-gradient(800px 420px at 0% 0%, rgb(138 157 177 / .28), transparent 55%),
+            linear-gradient(160deg, #2A2824 0%, #1F1E1A 100%);
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / .4);
+  --shadow-md: 0 10px 28px -12px rgb(0 0 0 / .6);
+  --shadow-lg: 0 24px 48px -16px rgb(0 0 0 / .7);
+}

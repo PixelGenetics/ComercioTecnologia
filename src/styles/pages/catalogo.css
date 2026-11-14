@@ -1,0 +1,8 @@
+/* Catálogo (pages/catalogo): panel de filtros. */
+
+.filtros { align-self: start; position: sticky; top: 5rem; }
+.rango-precio { display: flex; gap: .5rem; }
+
+@media (max-width: 860px) {
+  .filtros { position: static; }   /* en una columna, fijo taparía los productos */
+}

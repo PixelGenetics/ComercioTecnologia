@@ -1,0 +1,11 @@
+/* Tablas (carrito, pedidos). */
+
+.tabla { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: var(--r-md); border: 1px solid var(--border); background: var(--surface); }
+.tabla thead { background: var(--g-brand); }   /* en thead para que el gradiente sea continuo */
+.tabla th { text-align: left; padding: .8rem 1rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); }
+.tabla td { padding: .9rem 1rem; border-top: 1px solid var(--border); }
+.tabla td:first-child { min-width: 170px; }
+.tabla tbody tr:hover { background: var(--g-brand-soft); }
+
+/* En pantallas angostas la tabla se desplaza dentro de su caja, no la página */
+.tabla-scroll { overflow-x: auto; border-radius: var(--r-md); }

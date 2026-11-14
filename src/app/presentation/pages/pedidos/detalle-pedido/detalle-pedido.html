@@ -1,0 +1,70 @@
+<nav class="migas" aria-label="Ruta">
+  <a routerLink="/pedidos">Mis pedidos</a><span aria-hidden="true">›</span><span>Pedido #{{ id() }}</span>
+</nav>
+
+@if (cargando()) {
+  <app-cargando texto="Cargando pedido…" />
+} @else if (error(); as mensaje) {
+  <app-estado-vacio [titulo]="mensaje">
+    <a class="btn" routerLink="/pedidos">Ver mis pedidos</a>
+  </app-estado-vacio>
+} @else if (pedido(); as p) {
+  @if (nuevo()) {
+    <div class="alerta alerta-ok mb-3">
+      ¡Gracias por tu compra! Tu pedido quedó registrado y está pendiente de pago.
+    </div>
+  }
+
+  <div class="encabezado-pagina acciones-fila">
+    <div>
+      <h1>Pedido <span class="texto-gradiente">#{{ p.id }}</span></h1>
+      <span class="muted">{{ p.creadoEn | date: 'dd/MM/yyyy HH:mm' }} · {{ p.metodoPago }}</span>
+    </div>
+    <span [class]="'estado-grande estado-' + p.estado.toLowerCase()">{{ p.estado }}</span>
+  </div>
+
+  @if (p.estado !== 'Cancelado') {
+    <ol class="progreso" aria-label="Progreso del pedido">
+      @for (paso of pasos; track paso) {
+        <li [class.hecho]="completado(p.estado, paso)">{{ paso }}</li>
+      }
+    </ol>
+  }
+
+  <div class="layout-carrito">
+    <div class="tabla-scroll">
+      <table class="tabla">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th class="texto-derecha">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (l of p.lineas; track l.varianteId) {
+            <tr>
+              <td><strong>{{ l.producto }}</strong><div class="muted texto-mini">SKU {{ l.sku }}</div></td>
+              <td>{{ l.precioUnitario | currency: 'USD' }}</td>
+              <td>{{ l.cantidad }}</td>
+              <td class="texto-derecha"><strong>{{ l.subtotal | currency: 'USD' }}</strong></td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <aside class="resumen">
+      <h3>Resumen</h3>
+      <div class="linea"><span>Subtotal</span><span>{{ p.subtotal | currency: 'USD' }}</span></div>
+      @if (p.descuento > 0) {
+        <div class="linea descuento"><span>Descuento</span><span>−{{ p.descuento | currency: 'USD' }}</span></div>
+      }
+      <div class="linea"><span>Impuesto</span><span>{{ p.impuesto | currency: 'USD' }}</span></div>
+      <div class="linea"><span>Envío</span><span>{{ p.costoEnvio === 0 ? 'Gratis' : (p.costoEnvio | currency: 'USD') }}</span></div>
+      <div class="linea total"><span>Total</span><span>{{ p.total | currency: 'USD' }}</span></div>
+      <a class="btn btn-outline btn-block mt-2" routerLink="/catalogo">Seguir comprando</a>
+    </aside>
+  </div>
+}

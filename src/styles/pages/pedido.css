@@ -1,0 +1,19 @@
+/* Detalle de pedido (pages/pedidos/detalle-pedido): progreso Pendiente → Pagado → Enviado → Entregado. */
+
+.progreso { display: flex; list-style: none; padding: 0; margin: 0 0 1.5rem; counter-reset: paso; }
+.progreso li {
+  flex: 1; position: relative; text-align: center; font-size: .85rem; font-weight: 600; color: var(--text-muted);
+  padding-top: 2.4rem; counter-increment: paso;
+}
+.progreso li::before {
+  content: counter(paso); position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1;
+  width: 2rem; height: 2rem; border-radius: 50%; display: grid; place-items: center;
+  background: var(--surface-2); border: 1.5px solid var(--border); color: var(--text-muted);
+}
+.progreso li + li::after {
+  content: ""; position: absolute; top: 1rem; right: 50%; width: 100%; height: 3px;
+  background: var(--border); transform: translateY(-50%);
+}
+.progreso li.hecho { color: var(--text); }
+.progreso li.hecho::before { content: "✓"; background: var(--g-brand); border-color: transparent; color: var(--ink); }
+.progreso li.hecho + li.hecho::after { background: var(--g-brand); }

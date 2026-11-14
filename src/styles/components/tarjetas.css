@@ -1,0 +1,41 @@
+/* Tarjetas: .card genérica y tarjeta de producto (shared/components/tarjeta-producto). */
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  box-shadow: var(--shadow-sm);
+  padding: 1.25rem;
+}
+.titulo-tarjeta { margin: 0; font-size: 1.25rem; }
+
+/* Tarjeta de producto */
+.card-producto {
+  position: relative; overflow: hidden; padding: 0;
+  display: flex; flex-direction: column;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+}
+.card-producto:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); }
+.card-producto::after {            /* franja de gradiente al hacer hover */
+  content: ""; position: absolute; inset: auto 0 0 0; height: 4px;
+  background: var(--g-brand); transform: scaleX(0); transform-origin: left;
+  transition: transform .3s var(--ease);
+}
+.card-producto:hover::after { transform: scaleX(1); }
+.card-producto .imagen { aspect-ratio: 3 / 2; background: var(--g-brand-soft); object-fit: cover; width: 100%; }
+.card-producto .cuerpo { padding: 1rem 1.1rem 1.2rem; display: flex; flex-direction: column; gap: .4rem; flex: 1; }
+.card-producto .cuerpo .badge { align-self: flex-start; }
+.card-producto .marca { font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+.card-producto .nombre { font-weight: 700; font-size: 1.02rem; color: inherit; }
+.card-producto .acciones { margin-top: auto; padding-top: .6rem; }
+
+/* Área de imagen: muestra la marca con gradiente si no hay foto */
+.imagen-placeholder { display: grid; place-items: center; font-size: 1.8rem; font-weight: 800; letter-spacing: -.03em; overflow: hidden; }
+/* Fotos de producto: fondo blanco y "contain" para que no se recorten */
+.imagen-placeholder img, .galeria img, .miniaturas img, .admin-imagenes img {
+  width: 100%; height: 100%; object-fit: contain; background: #fff;
+}
+
+/* Precio */
+.precio { font-size: 1.4rem; font-weight: 800; }
+.precio-anterior { margin-left: .5rem; font-size: .95rem; color: var(--text-muted); text-decoration: line-through; font-weight: 500; }

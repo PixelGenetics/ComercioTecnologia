@@ -1,0 +1,39 @@
+/* Formularios: campos, validación de Angular y casillas. */
+
+.form { display: grid; gap: 1rem; }
+.campo { display: grid; gap: .35rem; }
+.campo label, .etiqueta-campo { font-size: .85rem; font-weight: 600; color: var(--text-muted); }
+legend.etiqueta-campo { margin-bottom: .5rem; }
+.campo-completo { grid-column: 1 / -1; }
+
+/* Varios campos en columnas que se acomodan solas */
+.grid-campos { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+.input, .select, textarea.input {
+  width: 100%; padding: .75rem .95rem; font: inherit; color: var(--text);
+  background: var(--surface-2);
+  border: 1.5px solid var(--border); border-radius: var(--r-sm);
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.input::placeholder { color: var(--text-muted); opacity: .75; }
+.input:focus, .select:focus {
+  outline: none; border-color: var(--azul);
+  background: var(--surface); box-shadow: var(--glow);
+}
+.input-codigo { text-transform: uppercase; }
+
+/* Validación de Angular (formularios reactivos / template-driven) */
+.input.ng-touched.ng-invalid, .input.invalido { border-color: var(--c-error); box-shadow: 0 0 0 4px rgb(158 79 83 / .18); }
+.input.ng-touched.ng-valid { border-color: var(--oliva); }
+.error-campo { font-size: .8rem; color: var(--c-error); }
+
+/* Casilla con texto */
+.check { display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; }
+.check input { accent-color: var(--azul-profundo); }
+
+/* Selector de cantidad (− 1 +) */
+.cantidad { display: inline-flex; align-items: center; border: 1.5px solid var(--border); border-radius: var(--r-pill); overflow: hidden; }
+.cantidad button { width: 2rem; height: 2rem; border: 0; background: var(--surface-2); color: var(--text); font-weight: 800; cursor: pointer; }
+.cantidad button:hover:not(:disabled) { background: var(--g-brand); color: var(--ink); }
+.cantidad button:disabled { opacity: .4; cursor: not-allowed; }
+.cantidad span { min-width: 2.2rem; text-align: center; font-weight: 700; }

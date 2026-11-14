@@ -1,0 +1,43 @@
+/* ==========================================================================
+   Comercio de Tecnología – plantilla de estilos (punto de entrada)
+   Registrado en angular.json → "styles". Solo importa; no escribas reglas aquí.
+
+   Orden (de lo general a lo específico; las utilidades van al final para ganar):
+   1. base        tokens de color/forma y estilos de elementos HTML
+   2. layout      estructura de página: contenedores, encabezado y pie
+   3. components  piezas reutilizables (botones, tarjetas, formularios…)
+   4. pages       ajustes propios de cada pantalla
+   5. utilities   clases de una sola responsabilidad (márgenes, texto…)
+   ========================================================================== */
+
+@import './base/tokens.css';
+@import './base/base.css';
+
+@import './layout/contenedores.css';
+@import './layout/header.css';
+@import './layout/footer.css';
+
+@import './components/botones.css';
+@import './components/tarjetas.css';
+@import './components/badges.css';
+@import './components/formularios.css';
+@import './components/alertas.css';
+@import './components/tablas.css';
+@import './components/resumen.css';
+@import './components/opciones.css';
+@import './components/paginacion.css';
+@import './components/migas.css';
+@import './components/carga.css';
+@import './components/estado-vacio.css';
+@import './components/avisos.css';
+@import './components/admin-imagenes.css';
+
+@import './pages/inicio.css';
+@import './pages/catalogo.css';
+@import './pages/producto-detalle.css';
+@import './pages/auth.css';
+@import './pages/pedido.css';
+@import './pages/cuenta.css';
+@import './pages/guia-estilos.css';
+
+@import './utilities/utilidades.css';

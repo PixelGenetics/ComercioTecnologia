@@ -1,0 +1,8 @@
+<div class="toasts" aria-live="polite">
+  @for (n of notificaciones.lista(); track n.id) {
+    <div class="toast" [class.toast-error]="n.tipo === 'error'" role="status">
+      <span>{{ n.texto }}</span>
+      <button type="button" aria-label="Cerrar aviso" (click)="notificaciones.cerrar(n.id)">✕</button>
+    </div>
+  }
+</div>

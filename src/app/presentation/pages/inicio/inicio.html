@@ -1,0 +1,34 @@
+<section class="hero">
+  <span class="badge">Nuevo · Wi-Fi 6 y memorias DDR5</span>
+  <h1>Tecnología que <span class="texto-gradiente">impulsa</span> tu día</h1>
+  <p>Laptops, smartphones, componentes y periféricos con garantía oficial y envío a todo el país.</p>
+  <div class="acciones-hero">
+    <a class="btn btn-lg" routerLink="/catalogo">Ver catálogo</a>
+    <a class="btn btn-lg btn-outline" routerLink="/catalogo" [queryParams]="{ categoria: 'Ultrabooks' }">Ultrabooks</a>
+  </div>
+</section>
+
+<div class="seccion-titulo" id="destacados">
+  <h2>Productos <span class="texto-gradiente">destacados</span></h2>
+  @if (!cargando() && !error()) {
+    <a routerLink="/catalogo">Ver los {{ total() }} productos →</a>
+  }
+</div>
+
+@if (error(); as mensaje) {
+  <div class="alerta alerta-error">{{ mensaje }}</div>
+} @else {
+  <div class="grid-productos">
+    @if (cargando()) {
+      @for (n of placeholders; track n) {
+        <app-tarjeta-producto-skeleton />
+      }
+    } @else {
+      @for (item of items(); track item.varianteId) {
+        <app-tarjeta-producto [item]="item" />
+      } @empty {
+        <div class="alerta alerta-info">No hay productos con stock.</div>
+      }
+    }
+  </div>
+}

@@ -1,0 +1,113 @@
+<div class="encabezado-pagina">
+  <h1>Guía de <span class="texto-gradiente">estilos</span></h1>
+  <p class="muted">Clases de la plantilla de estilos (<code>src/styles/</code>) para construir las pantallas de la tienda.</p>
+</div>
+
+<div class="seccion-titulo"><h2>Botones</h2></div>
+<div class="row">
+  <button type="button" class="btn">.btn</button>
+  <button type="button" class="btn btn-hot">.btn-hot</button>
+  <button type="button" class="btn btn-ok">.btn-ok</button>
+  <button type="button" class="btn btn-outline">.btn-outline</button>
+  <button type="button" class="btn btn-ghost">.btn-ghost</button>
+  <button type="button" class="btn btn-sm">.btn-sm</button>
+  <button type="button" class="btn btn-lg">.btn-lg</button>
+  <button type="button" class="btn" disabled>deshabilitado</button>
+</div>
+
+<div class="seccion-titulo"><h2>Badges y estados de pedido</h2></div>
+<div class="row">
+  <span class="badge">.badge</span>
+  <span class="badge badge-stock-ok">Disponible</span>
+  <span class="badge badge-stock-bajo">Quedan 3</span>
+  <span class="badge badge-agotado">Agotado</span>
+  <span class="badge badge-descuento">-10%</span>
+</div>
+<div class="row mt-2">
+  @for (e of estados; track e) {
+    <span [class]="'estado-' + e.toLowerCase()">{{ e }}</span>
+  }
+</div>
+
+<div class="seccion-titulo"><h2>Alertas (errores de la API)</h2></div>
+<div class="stack">
+  <div class="alerta alerta-error">Stock insuficiente para uno o más productos.</div>
+  <div class="alerta alerta-warn">El cupón no es válido o ya expiró.</div>
+  <div class="alerta alerta-ok">Pedido creado correctamente.</div>
+  <div class="alerta alerta-info">Inicia sesión para ver tu carrito.</div>
+</div>
+
+<div class="seccion-titulo"><h2>Formulario</h2></div>
+<div class="card card-auth borde-gradiente guia-formulario">
+  <h1>Iniciar <span class="texto-gradiente">sesión</span></h1>
+  <form class="form" (submit)="$event.preventDefault()">
+    <div class="campo">
+      <label for="g-correo">Correo</label>
+      <input id="g-correo" class="input ng-touched ng-valid" type="email" value="laura@example.com" />
+    </div>
+    <div class="campo">
+      <label for="g-password">Contraseña</label>
+      <input id="g-password" class="input ng-touched ng-invalid" type="password" placeholder="Mínimo 8 caracteres" />
+      <span class="error-campo">La contraseña es obligatoria.</span>
+    </div>
+    <div class="campo">
+      <label for="g-envio">Método de envío</label>
+      <select id="g-envio" class="select">
+        <option>Estándar · $5.00</option>
+        <option>Express · $12.00</option>
+        <option>Retiro en tienda · $0.00</option>
+      </select>
+    </div>
+    <label class="check"><input type="checkbox" checked /> Recordarme</label>
+    <button type="submit" class="btn btn-block">Entrar</button>
+  </form>
+</div>
+
+<div class="seccion-titulo"><h2>Carrito y resumen</h2></div>
+<div class="layout-carrito">
+  <div class="tabla-scroll">
+    <table class="tabla">
+      <thead>
+        <tr><th>Producto</th><th>Precio</th><th>Cantidad</th><th>Subtotal</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Logitech MX Master 3S <div class="muted">Grafito</div></td>
+          <td>$99.00</td>
+          <td><div class="cantidad"><button type="button">−</button><span>1</span><button type="button">+</button></div></td>
+          <td>$99.00</td>
+        </tr>
+        <tr>
+          <td>Kingston FURY Beast DDR5 <div class="muted">32GB (2x16GB)</div></td>
+          <td>$129.00</td>
+          <td><div class="cantidad"><button type="button">−</button><span>2</span><button type="button">+</button></div></td>
+          <td>$258.00</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <aside class="resumen">
+    <h3>Resumen</h3>
+    <div class="linea"><span>Subtotal</span><span>$357.00</span></div>
+    <div class="linea descuento"><span>Cupón BIENVENIDA10</span><span>−$35.70</span></div>
+    <div class="linea"><span>Impuesto (15%)</span><span>$48.20</span></div>
+    <div class="linea"><span>Envío</span><span>$5.00</span></div>
+    <div class="linea total"><span>Total</span><span>$374.50</span></div>
+    <button type="button" class="btn btn-block btn-lg mt-2">Confirmar pedido</button>
+  </aside>
+</div>
+
+<div class="seccion-titulo"><h2>Paginación, carga y estado vacío</h2></div>
+<div class="paginacion paginacion-izquierda">
+  <button type="button">‹</button>
+  <button type="button" class="activa">1</button>
+  <button type="button">2</button>
+  <button type="button">3</button>
+  <button type="button">›</button>
+</div>
+<app-cargando texto="Cargando…" />
+<div class="mt-2">
+  <app-estado-vacio icono="📦" titulo="Aún no tienes pedidos">
+    <p class="muted">Contenido proyectado dentro de &lt;app-estado-vacio&gt;.</p>
+  </app-estado-vacio>
+</div>

@@ -1,0 +1,82 @@
+<div class="encabezado-pagina">
+  <h1>Tu <span class="texto-gradiente">carrito</span></h1>
+</div>
+
+@if (cargando()) {
+  <app-cargando texto="Cargando carrito…" />
+} @else if (error(); as mensaje) {
+  <div class="alerta alerta-error">{{ mensaje }}</div>
+} @else if (carrito(); as c) {
+  @if (c.items.length === 0) {
+    <app-estado-vacio icono="🛒" titulo="Tu carrito está vacío">
+      <p class="muted">Explora el catálogo y agrega lo que necesites.</p>
+      <a class="btn" routerLink="/catalogo">Ir al catálogo</a>
+    </app-estado-vacio>
+  } @else {
+    @if (problemas().length > 0) {
+      <div class="alerta alerta-warn mb-2">
+        Algunos productos no tienen stock suficiente o ya no están disponibles. Ajusta las cantidades para continuar.
+      </div>
+    }
+
+    <div class="layout-carrito">
+      <div class="tabla-scroll">
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Producto</th>
+              <th>Precio</th>
+              <th>Cantidad</th>
+              <th class="texto-derecha">Subtotal</th>
+              <th><span class="sr-only">Quitar</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (item of c.items; track item.varianteId) {
+              <tr>
+                <td>
+                  <strong>{{ item.producto }}</strong>
+                  @if (item.variante) {
+                    <div class="muted">{{ item.variante }}</div>
+                  }
+                  <div class="muted texto-mini">SKU {{ item.sku }}</div>
+                  @if (!item.activo) {
+                    <span class="error-campo">Ya no está disponible</span>
+                  } @else if (item.cantidad > item.stock) {
+                    <span class="error-campo">Solo quedan {{ item.stock }}</span>
+                  }
+                </td>
+                <td>{{ item.precioUnitario | currency: 'USD' }}</td>
+                <td>
+                  <div class="cantidad" role="group" [attr.aria-label]="'Cantidad de ' + item.producto">
+                    <button type="button" (click)="cambiar(item, -1)" [disabled]="item.cantidad <= 1 || ocupado() === item.varianteId" aria-label="Quitar uno">−</button>
+                    <span>{{ item.cantidad }}</span>
+                    <button type="button" (click)="cambiar(item, 1)" [disabled]="item.cantidad >= item.stock || ocupado() === item.varianteId" aria-label="Agregar uno">+</button>
+                  </div>
+                </td>
+                <td class="texto-derecha"><strong>{{ item.subtotal | currency: 'USD' }}</strong></td>
+                <td>
+                  <button type="button" class="btn btn-ghost btn-sm" (click)="quitar(item)" [disabled]="ocupado() === item.varianteId" [attr.aria-label]="'Quitar ' + item.producto">✕</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <aside class="resumen">
+        <h3>Resumen</h3>
+        <div class="linea"><span>Productos</span><span>{{ cantidadTotal() }}</span></div>
+        <div class="linea total"><span>Subtotal</span><span>{{ c.subtotal | currency: 'USD' }}</span></div>
+        <p class="muted texto-chico">El envío, el impuesto y los cupones se calculan en el siguiente paso.</p>
+        <button type="button" class="btn btn-block btn-lg mt-2" [disabled]="problemas().length > 0" (click)="irAlCheckout()">
+          Continuar al pago
+        </button>
+        <div class="acciones-fila mt-1">
+          <a routerLink="/catalogo" class="btn btn-ghost btn-sm">← Seguir comprando</a>
+          <button type="button" class="btn btn-ghost btn-sm" (click)="vaciar()">Vaciar</button>
+        </div>
+      </aside>
+    </div>
+  }
+}

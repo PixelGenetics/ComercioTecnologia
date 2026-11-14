@@ -1,0 +1,110 @@
+<nav class="migas" aria-label="Ruta">
+  <a routerLink="/carrito">Carrito</a><span aria-hidden="true">›</span><span>Checkout</span>
+</nav>
+<div class="encabezado-pagina">
+  <h1>Finalizar <span class="texto-gradiente">compra</span></h1>
+</div>
+
+@if (cargando()) {
+  <app-cargando texto="Preparando tu pedido…" />
+} @else if (error(); as mensaje) {
+  <div class="alerta alerta-error">{{ mensaje }}</div>
+} @else if (!carrito()?.items?.length) {
+  <app-estado-vacio icono="🛒" titulo="No hay nada que pagar">
+    <p class="muted">Tu carrito está vacío.</p>
+    <a class="btn" routerLink="/catalogo">Ir al catálogo</a>
+  </app-estado-vacio>
+} @else {
+  <!-- div y no <form>: adentro va el formulario de nueva dirección y los formularios no se pueden anidar -->
+  <div class="layout-carrito" [formGroup]="form">
+    <div class="stack">
+      <!-- 1. Dirección -->
+      <section class="card">
+        <div class="acciones-fila mb-1">
+          <h2 class="titulo-tarjeta">1. Dirección de envío</h2>
+          @if (!nuevaDireccion()) {
+            <button type="button" class="btn btn-ghost btn-sm" (click)="nuevaDireccion.set(true)">+ Nueva</button>
+          }
+        </div>
+        <div class="opciones">
+          @for (d of direcciones(); track d.id) {
+            <label class="opcion">
+              <input type="radio" formControlName="direccionId" [value]="d.id" />
+              <span class="opcion-cuerpo">
+                <strong>{{ d.alias || 'Dirección' }} @if (d.esPrincipal) { <span class="badge">Principal</span> }</strong>
+                <span>{{ d.calle }}</span>
+                <span class="muted">{{ d.ciudad }}@if (d.estado) {, {{ d.estado }}} · {{ d.pais }}</span>
+              </span>
+            </label>
+          }
+        </div>
+        @if (nuevaDireccion()) {
+          <div class="mt-2">
+            <app-form-direccion (creada)="direccionCreada($event)" (cancelar)="nuevaDireccion.set(false)" />
+          </div>
+        }
+      </section>
+
+      <!-- 2. Envío -->
+      <section class="card">
+        <h2 class="titulo-tarjeta mb-1">2. Método de envío</h2>
+        <div class="opciones">
+          @for (m of metodos(); track m.id) {
+            <label class="opcion">
+              <input type="radio" formControlName="metodoEnvioId" [value]="m.id" />
+              <span class="opcion-cuerpo">
+                <strong>{{ m.nombre }}</strong>
+                <span class="muted">
+                  @if (m.tiempoEstimadoDias === 0) { Disponible hoy } @else { {{ m.tiempoEstimadoDias }} días hábiles aprox. }
+                </span>
+              </span>
+              <span class="opcion-extra">{{ m.costoBase === 0 ? 'Gratis' : (m.costoBase | currency: 'USD') }}</span>
+            </label>
+          }
+        </div>
+      </section>
+
+      <!-- 3. Pago -->
+      <section class="card">
+        <h2 class="titulo-tarjeta mb-1">3. Pago</h2>
+        <div class="grid-campos">
+          <div class="campo">
+            <label for="pago">Método de pago</label>
+            <select id="pago" class="select" formControlName="metodoPago">
+              @for (mp of metodosPago; track mp) {
+                <option [value]="mp">{{ mp }}</option>
+              }
+            </select>
+          </div>
+          <div class="campo">
+            <label for="cupon">Cupón <span class="muted">(opcional)</span></label>
+            <input id="cupon" class="input input-codigo" formControlName="cupon" placeholder="BIENVENIDA10" />
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="resumen">
+      <h3>Tu pedido</h3>
+      @for (item of carrito()!.items; track item.varianteId) {
+        <div class="linea linea-item">
+          <span>{{ item.cantidad }} × {{ item.producto }}@if (item.variante) { <span class="muted"> · {{ item.variante }}</span>}</span>
+          <span>{{ item.subtotal | currency: 'USD' }}</span>
+        </div>
+      }
+      <hr class="separador" />
+      <div class="linea"><span>Subtotal</span><span>{{ carrito()!.subtotal | currency: 'USD' }}</span></div>
+      <div class="linea"><span>Envío</span><span>{{ envio() === 0 ? 'Gratis' : (envio() | currency: 'USD') }}</span></div>
+      <div class="linea total"><span>Total</span><span>{{ totalAntesImpuesto() | currency: 'USD' }}</span></div>
+      <p class="muted texto-chico">+ impuesto. El impuesto y el descuento del cupón se aplican al confirmar.</p>
+
+      @if (errorPedido(); as mensaje) {
+        <div class="alerta alerta-error mt-2">{{ mensaje }}</div>
+      }
+
+      <button type="button" class="btn btn-block btn-lg mt-2" [disabled]="enviando()" (click)="confirmar()">
+        {{ enviando() ? 'Confirmando…' : 'Confirmar pedido' }}
+      </button>
+    </aside>
+  </div>
+}

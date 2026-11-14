@@ -1,0 +1,56 @@
+<section class="card borde-gradiente admin-imagenes">
+  <div class="acciones-fila">
+    <h2 class="titulo-tarjeta">Imágenes del producto</h2>
+    <span class="badge">Solo administradores</span>
+  </div>
+  <p class="muted texto-chico mt-1">
+    Pega el enlace público de una imagen (por ejemplo, de un bucket público de Supabase Storage). La principal es la que se ve en el catálogo.
+  </p>
+
+  @if (error(); as mensaje) {
+    <div class="alerta alerta-error mt-2">{{ mensaje }}</div>
+  }
+
+  @if (imagenes().length > 0) {
+    <div class="lista">
+      @for (img of imagenes(); track img.url; let i = $index) {
+        <div class="item">
+          <div class="foto">
+            <img [src]="img.url" [alt]="'Imagen ' + (i + 1)" loading="lazy" />
+            @if (img.principal) {
+              <span class="badge">Principal</span>
+            }
+          </div>
+          <div class="url" [title]="img.url">{{ img.url }}</div>
+          <div class="acciones">
+            @if (!img.principal) {
+              <button type="button" class="btn btn-ghost btn-sm" [disabled]="ocupado()" (click)="hacerPrincipal(i)">Hacer principal</button>
+            } @else {
+              <span></span>
+            }
+            <button type="button" class="btn btn-ghost btn-sm" [disabled]="ocupado()" (click)="quitar(i)" [attr.aria-label]="'Quitar imagen ' + (i + 1)">✕</button>
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="alerta alerta-info my-2">Este producto aún no tiene imágenes.</div>
+  }
+
+  <form class="form" [formGroup]="form" (ngSubmit)="agregar()" novalidate>
+    <div class="campo">
+      <label for="img-url">URL de la imagen</label>
+      <input id="img-url" class="input" type="url" formControlName="url" placeholder="https://…/producto.jpg" />
+      @if (form.controls.url.touched && form.controls.url.invalid) {
+        <span class="error-campo">Escribe una URL que empiece con http:// o https://.</span>
+      }
+    </div>
+    <div class="acciones-fila">
+      <label class="check">
+        <input type="checkbox" formControlName="principal" />
+        Usar como principal
+      </label>
+      <button type="submit" class="btn" [disabled]="ocupado()">{{ ocupado() ? 'Guardando…' : 'Agregar imagen' }}</button>
+    </div>
+  </form>
+</section>

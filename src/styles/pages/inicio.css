@@ -1,0 +1,13 @@
+/* Página de inicio (pages/inicio): bloque de presentación. */
+
+.hero {
+  background: var(--g-hero);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: clamp(2rem, 6vw, 4.5rem);
+  box-shadow: var(--shadow-lg);
+}
+.hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); }
+.hero p { color: var(--text-muted); max-width: 55ch; }
+.hero .acciones-hero { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }

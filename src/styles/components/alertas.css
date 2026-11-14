@@ -1,0 +1,11 @@
+/* Alertas (mensajes de la API: 400/401/403/404/409, éxito e información). */
+
+.alerta {
+  padding: .85rem 1rem; border-radius: var(--r-sm); font-weight: 600;
+  border: 1px solid transparent; color: var(--text);
+}
+.alerta-error { background: linear-gradient(135deg, rgb(236 197 198 / .5), rgb(236 197 198 / .2)); border-color: rgb(158 79 83 / .35); }
+.alerta-ok    { background: linear-gradient(135deg, rgb(131 125 104 / .22), rgb(131 125 104 / .08)); border-color: rgb(131 125 104 / .45); }
+.alerta-info  { background: var(--g-brand-soft); border-color: rgb(138 157 177 / .55); }
+.alerta-warn  { background: linear-gradient(135deg, rgb(193 192 194 / .4), rgb(236 197 198 / .2)); border-color: rgb(193 192 194 / .9); }
+.alerta-suave { font-weight: 500; }

@@ -1,0 +1,8 @@
+/* Panel de imágenes para administradores (shared/components/admin-imagenes). */
+
+.admin-imagenes .lista { display: grid; gap: .75rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); margin: 1rem 0; }
+.admin-imagenes .item { border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; background: var(--surface); }
+.admin-imagenes .item .foto { aspect-ratio: 4 / 3; position: relative; }
+.admin-imagenes .item .foto .badge { position: absolute; top: .4rem; left: .4rem; }
+.admin-imagenes .item .acciones { display: flex; justify-content: space-between; gap: .25rem; padding: .35rem; }
+.admin-imagenes .url { font-size: .72rem; color: var(--text-muted); padding: .35rem .5rem 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

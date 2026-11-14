@@ -1,0 +1,37 @@
+/* Detalle de producto (pages/producto-detalle). */
+
+.detalle-producto { display: grid; gap: 2rem; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: start; }
+@media (max-width: 860px) { .detalle-producto { grid-template-columns: 1fr; } }
+
+/* Galería */
+.galeria { border-radius: var(--r-lg); overflow: hidden; background: var(--g-brand-soft); border: 1px solid var(--border); aspect-ratio: 3 / 2; }
+.galeria .imagen-placeholder { height: 100%; }
+.miniaturas { display: flex; gap: .5rem; margin-top: .75rem; flex-wrap: wrap; }
+.miniaturas button {
+  width: 4.5rem; height: 3.4rem; padding: 0; border-radius: var(--r-sm); overflow: hidden; cursor: pointer;
+  border: 2px solid var(--border); background: var(--surface);
+}
+.miniaturas button.activa { border-color: transparent; box-shadow: 0 0 0 2px var(--azul), var(--shadow-md); }
+
+/* Información y compra */
+.detalle-marca { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--text-muted); }
+.detalle-info h1 { margin: .2rem 0 .4rem; }
+.detalle-info p { margin: 0; }
+.detalle-precio { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+.detalle-precio .precio { font-size: 2rem; }
+.detalle-precio .precio-anterior { margin-left: 0; }
+.detalle-stock { display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.detalle-compra { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.detalle-compra .btn { flex: 1; }
+
+/* Especificaciones */
+.specs { display: grid; grid-template-columns: minmax(120px, auto) 1fr; margin: 0; border: 1px solid var(--border); border-radius: var(--r-md); overflow: hidden; }
+.specs dt, .specs dd { margin: 0; padding: .65rem .9rem; border-top: 1px solid var(--border); }
+.specs dt { font-weight: 600; color: var(--text-muted); background: var(--surface-2); }
+.specs dt:first-of-type, .specs dt:first-of-type + dd { border-top: 0; }
+
+/* Panel de administración y relacionados */
+.seccion-admin { margin-top: 2rem; }
+.card-relacionado { display: grid; gap: .3rem; color: inherit; }
+.card-relacionado:hover { text-decoration: none; }
+.card-relacionado .badge { justify-self: start; margin-bottom: .2rem; }
